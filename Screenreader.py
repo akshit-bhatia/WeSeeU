@@ -13,14 +13,14 @@ engine.setProperty("rate",130)
 r = sr.Recognizer()  
 
 # Setting up the game path and calling it
-Game_path = "D:\\Games\\Flash Games\\BallGame.exe"
+Game_path = ".\BallGame.exe"
 
 process = subprocess.Popen(Game_path, stderr = subprocess.PIPE)
 
 time.sleep(2)
 
 # Giving a subtitle file for TTS
-text_val = "C:\\Users\\Manav\\Desktop\\TestfileTTS.txt"
+text_val = ".\TestfileTTS.txt"
 file1 = open(text_val, 'r')
 Lines = file1.readlines()
 errormessage = "Sorry, I did not get that"
