@@ -3,13 +3,18 @@ import time
 import speech_recognition as sr
 import subprocess
 import pyttsx3
+import tkinter as tk
+from tkinter import simpledialog
 
 # Initializing TTS engine
 engine = pyttsx3.init()
+
 engine.setProperty("rate",130)
+
 
 # Building an object for Speech recognization
 r = sr.Recognizer()  
+
 
 # Setting up the game path and calling it
 Game_path = ".\BallGame.exe"
@@ -18,12 +23,43 @@ process = subprocess.Popen(Game_path, stderr = subprocess.PIPE)
 
 time.sleep(2)
 
+
+errormessage = "Sorry, I did not get that"
+Voice="Please choose a Voice"
+engine.say(Voice)
+engine.runAndWait()
+with sr.Microphone() as source:
+    print("Talk")
+    audio_text1 = r.listen(source)
+    print("Time over, thanks")
+# recoginize_() method will throw a request error if the API is unreachable, hence using exception handling
+    
+    try:
+        # using google speech recognition
+        print("Text: "+r.recognize_google(audio_text1))
+    except:
+         engine.say(errormessage)
+         engine.runAndWait()
+voice= r.recognize_google(audio_text1)
+
+if voice=="female":
+    voice = engine.getProperty('voices') #get the available voices
+    engine.setProperty('voice', voice[1].id)
+elif voice == "male":
+    voice = engine.getProperty('voices') #get the available voices
+    engine.setProperty('voice', voice[0].id)
+
+ROOT = tk.Tk()
+ROOT.withdraw()
+response = simpledialog.askstring(title="Words Per Minute", prompt = "1. 125 2. 130 3. 175 ")
+
+engine.setProperty("rate",response)
+
 # Giving a subtitle file for TTS
 text_val = ".\Textfiles\TestfileTTS.txt"
 file1 = open(text_val, 'r')
 Lines = file1.readlines()
-errormessage = "Sorry, I did not get that"
-language = 'en'  
+
 
 # Creating an object for playing the sound
 for line in Lines:
