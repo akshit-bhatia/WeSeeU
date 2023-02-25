@@ -6,7 +6,7 @@ class TestSpeechRecognition(unittest.TestCase):
         self.recognizer = sr.Recognizer()
     
     def test_speech_recognition(self):
-        self.audio_file = sr.AudioFile('./Testcases/test.wav')
+        self.audio_file = sr.AudioFile('.\Testcases\\test.wav')
         with self.audio_file as source:
             audio = self.recognizer.record(source)
         
@@ -17,7 +17,7 @@ class TestSpeechRecognition(unittest.TestCase):
         self.assertTrue(result, "Result from speech recognition is empty.")
 
     def test_speech_recognition1(self):
-        self.audio_file = sr.AudioFile('./Testcases/test1.wav')
+        self.audio_file = sr.AudioFile('.\Testcases\\test1.wav')
         with self.audio_file as source:
             audio = self.recognizer.record(source)
         
@@ -28,7 +28,7 @@ class TestSpeechRecognition(unittest.TestCase):
         self.assertTrue(result, "Result from speech recognition is empty.")
 
     def test_speech_recognition2(self):
-        self.audio_file = sr.AudioFile('./Testcases/test2.wav')
+        self.audio_file = sr.AudioFile('.\Testcases\\test2.wav')
         with self.audio_file as source:
             audio = self.recognizer.record(source)
         

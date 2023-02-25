@@ -15,7 +15,7 @@ class TestPyAutoGUI(unittest.TestCase):
 
     def test_navigate_to_word(self):
         # Locate an image of the word "hello world" on the screen and Get the center coordinates of the image
-        center_x, center_y = pyautogui.locateCenterOnScreen('./Testcases/test3.jpg', confidence = 0.8)
+        center_x, center_y = pyautogui.locateCenterOnScreen('.\Testcases\\test3.jpg', confidence = 0.8)
         # Move the mouse to the center coordinates of the image
         pyautogui.moveTo(center_x, center_y)
         # Get the current position of the mouse
