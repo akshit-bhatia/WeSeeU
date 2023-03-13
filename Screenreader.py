@@ -1,15 +1,64 @@
 import pyautogui
+import webbrowser
 import time
 import speech_recognition as sr
-import subprocess
 import pyttsx3
 import tkinter as tk
 from tkinter import simpledialog
+
+
+
+def choices(option):
+    if option == "play now":
+        x, y = pyautogui.locateCenterOnScreen(".\Images\playnow.png", confidence = 0.8)
+        pyautogui.moveTo(x, y, 1)
+        pyautogui.click()
+    
+    elif option == "level 1":
+        x, y = pyautogui.locateCenterOnScreen(".\Images\level1.png", confidence = 0.8)
+        pyautogui.moveTo(x, y, 1)
+        pyautogui.click()
+
+
+    elif option == "level 2":
+        x, y = pyautogui.locateCenterOnScreen(".\Images\level.png", confidence = 0.8)
+        pyautogui.moveTo(x, y, 1)
+        pyautogui.click()
+
+
+    elif option == "play":
+        x, y = pyautogui.locateCenterOnScreen(".\\Images\\taptoplay.png", confidence = 0.8)
+        pyautogui.moveTo(x, y, 1)
+        pyautogui.click()
+
+    elif option == "fire":
+        x, y = pyautogui.locateCenterOnScreen(".\Images\opponent.png", confidence = 0.8)
+        pyautogui.moveTo(x, y, 1)
+        pyautogui.click()
+
+    elif option == "fullscreen":
+        x, y = pyautogui.locateCenterOnScreen(".\Images\Fullscreen.png", confidence = 0.8)
+        pyautogui.moveTo(x, y, 1)
+        pyautogui.click()
+
+    elif option == "replay":
+        x, y = pyautogui.locateCenterOnScreen(".\Images\Replay.png", confidence = 0.8)
+        pyautogui.moveTo(x, y, 1)
+        pyautogui.click()
+    elif option == "single player" or option == "finger player":
+        x, y = pyautogui.locateCenterOnScreen(".\Images\Singleplayer.png", confidence = 0.8)
+        pyautogui.moveTo(x, y, 1)
+        pyautogui.click()
+    
 
 # Initializing TTS engine
 engine = pyttsx3.init()
 
 engine.setProperty("rate",130)
+
+        
+        
+
 
 
 # Building an object for Speech recognization
@@ -17,15 +66,17 @@ r = sr.Recognizer()
 
 
 # Setting up the game path and calling it
-Game_path = ".\BallGame.exe"
+url = 'https://www.crazygames.com/game/stickman-archer-2'
 
-process = subprocess.Popen(Game_path, stderr = subprocess.PIPE)
+chrome_path = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s'
+
+webbrowser.get(chrome_path).open(url)
 
 time.sleep(2)
 
 
 errormessage = "Sorry, I did not get that"
-Voice="Please choose a Voice"
+Voice="Please choose a Voice. Male or Female"
 engine.say(Voice)
 engine.runAndWait()
 with sr.Microphone() as source:
@@ -56,7 +107,32 @@ response = simpledialog.askstring(title="Words Per Minute", prompt = "1. 125 2. 
 engine.setProperty("rate",response)
 
 # Giving a subtitle file for TTS
-text_val = ".\Textfiles\TestfileTTS.txt"
+text_val = "Do you want to Play Now?"
+
+engine.say(text_val)
+engine.runAndWait()
+
+# Asking user to choose an option and saying it in their microphone
+with sr.Microphone() as source:
+    print("Talk")
+    audio_text = r.listen(source)
+    print("Time over, thanks")
+# recoginize_() method will throw a request error if the API is unreachable, hence using exception handling
+    
+    try:
+        # using google speech recognition
+        print("Text: "+r.recognize_google(audio_text))
+    except:
+         #engine.say(errormessage)
+         #engine.runAndWait()
+        x, y = pyautogui.locateCenterOnScreen(".\Images\playnow.png", confidence = 0.8)
+        pyautogui.moveTo(x, y, 1)
+        pyautogui.click()
+
+option = r.recognize_google(audio_text)
+choices(option)
+
+text_val = ".\Textfiles\Page_1.txt"
 file1 = open(text_val, 'r')
 Lines = file1.readlines()
 
@@ -81,29 +157,85 @@ with sr.Microphone() as source:
          engine.runAndWait()
 
 option = r.recognize_google(audio_text)
+choices(option)
 
-# building up the cases for selected option of a user
-if option == "play":
-    x, y = pyautogui.locateCenterOnScreen(".\Images\play1.png", confidence = 0.8)
-    pyautogui.moveTo(x, y, 1)
-    pyautogui.click()
+text_val = ".\Textfiles\Page_2.txt"
+file1 = open(text_val, 'r')
+Lines = file1.readlines()
 
-elif option == "Instruction":
-    x, y = pyautogui.locateCenterOnScreen(".\Images\info1.png", confidence = 0.8)
-    pyautogui.moveTo(x, y, 1)
-    pyautogui.click()
 
-elif option == "High Score":
-    x, y = pyautogui.locateCenterOnScreen(".\Images\highscore1.png", confidence = 0.8)
-    pyautogui.moveTo(x, y, 1)
-    pyautogui.click()
+# Creating an object for playing the sound
+for line in Lines:
+    engine.say(line)
+    engine.runAndWait()
 
-elif option == "Add Score":
-    x, y = pyautogui.locateCenterOnScreen(".\Images\addscore.png", confidence = 0.8)
-    pyautogui.moveTo(x, y, 1)
-    pyautogui.click()
+# Asking user to choose an option and saying it in their microphone
+with sr.Microphone() as source:
+    print("Talk")
+    audio_text = r.listen(source)
+    print("Time over, thanks")
+# recoginize_() method will throw a request error if the API is unreachable, hence using exception handling
+    
+    try:
+        # using google speech recognition
+        print("Text: "+r.recognize_google(audio_text))
+    except:
+         engine.say(errormessage)
+         engine.runAndWait()
+        
 
-elif option == "exit":
-    x, y = pyautogui.locateCenterOnScreen(".\Images\quit1.png", confidence = 0.8)
-    pyautogui.moveTo(x, y, 1)
-    pyautogui.click()
+option = r.recognize_google(audio_text)
+x, y = pyautogui.locateCenterOnScreen(".\\Images\\taptoplay.png", confidence = 0.8)
+pyautogui.moveTo(x, y, 1)
+pyautogui.click()
+
+
+time.sleep(3)
+
+
+while True:
+    try:
+        x, y = pyautogui.locateCenterOnScreen(".\Images\opponent.png", confidence = 0.5)
+        cursor =pyautogui. position()
+        a = cursor[0]
+        b = cursor[1]
+
+        relativeA= a-x
+        relativeB = b-y
+        
+        if relativeA in range(-100,100) and relativeB in range(-100,100):
+            pyautogui.moveTo(x, y-40, 1)
+            trigger="Fire"
+            engine.say(trigger)
+            engine.runAndWait()
+            engine.setProperty("rate",150)
+    except:
+        pass
+
+r = None
+while r is None:
+    r = pyautogui.locateOnScreen('.\Images\gameover.png', grayscale = True)
+    text_val = ".\Textfiles\Page_4.txt"
+    file1 = open(text_val, 'r')
+    Lines = file1.readlines()
+    # Creating an object for playing the sound
+    for line in Lines:
+        engine.say(line)
+        engine.runAndWait()
+
+    # Asking user to choose an option and saying it in their microphone
+    with sr.Microphone() as source:
+        print("Talk")
+        audio_text = r.listen(source)
+        print("Time over, thanks")
+    # recoginize_() method will throw a request error if the API is unreachable, hence using exception handling
+        
+        try:
+            # using google speech recognition
+            print("Text: "+r.recognize_google(audio_text))
+        except:
+            engine.say(errormessage)
+            engine.runAndWait()
+
+    option = r.recognize_google(audio_text)
+    choices(option)
