@@ -262,7 +262,6 @@ pyautogui.click()
 time.sleep(3)
 
 
-
 while True:
     try:
         x, y = pyautogui.locateCenterOnScreen(".\Images\opponent.png", confidence = 0.5)
