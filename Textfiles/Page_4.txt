@@ -1,0 +1,8 @@
+Game Over
+your Score is:
+your Best score is:
+Following are the options:
+Home
+mute/turn on game music:
+Archery Inventory
+Play Again
