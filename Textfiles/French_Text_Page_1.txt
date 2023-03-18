@@ -1,5 +1,0 @@
-Bienvenue dans Stickman Archer 2
-voici la liste des options :
-Désactiver/activer la musique du jeu
-Plein écran
-Joueur unique

@@ -1,5 +1,5 @@
 welcome to Stickman Archer 2
 following are the list of options:
-Mute/ turn on game music
+Mute turn on game music
 Full screen
 Single player

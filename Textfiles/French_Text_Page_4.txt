@@ -1,8 +1,0 @@
-Jeu terminé
-Ton score est:
-votre meilleur score est :
-Voici les options :
-Maison
-désactiver/activer la musique du jeu :
-Inventaire du tir à l'arc
-Rejouer
