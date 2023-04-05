@@ -3,7 +3,6 @@
 #Importing requried libraries.
 import os
 import time
-import pyttsx3
 import pyautogui
 import webbrowser
 import tkinter as tk
@@ -11,78 +10,131 @@ from gtts import gTTS
 import speech_recognition as sr
 from playsound import playsound
 from googletrans import Translator
-from tkinter import simpledialog
 
 
 # Method for objection identification and navigation.
-def choices(option):
-    if option == "play now":
-        xCoordinate, yCoordinate = pyautogui.locateCenterOnScreen(".\Images\playnow.png", confidence = 0.7)
-        pyautogui.moveTo(xCoordinate, yCoordinate, 1)
+def choice(choices):
+ 
+    if choices== "play now" or choices== "joue maintenant":
+        xcoordinate, ycoordinate = pyautogui.locateCenterOnScreen(".\Images\playnow.png", confidence = 0.7)
+        pyautogui.moveTo(xcoordinate, ycoordinate,1)
         pyautogui.click()
     
-    elif option == "level 1":
-        xCoordinate, yCoordinate = pyautogui.locateCenterOnScreen(".\Images\level1.png", confidence = 0.7)
-        pyautogui.moveTo(xCoordinate, yCoordinate, 1)
+    
+    elif choices== "level 1" or choices== "niveau 1":
+        xcoordinate, ycoordinate = pyautogui.locateCenterOnScreen(".\Images\level1.png", confidence = 0.7)
+        pyautogui.moveTo(xcoordinate, ycoordinate,1)
+        pyautogui.click()
+        
+
+    elif choices== "level 2" or choices== "niveau 2":
+        xcoordinate, ycoordinate = pyautogui.locateCenterOnScreen(".\Images\level.png", confidence = 0.7)
+        pyautogui.moveTo(xcoordinate, ycoordinate,1)
+        pyautogui.click()
+    
+
+    elif choices== "play" or choices== "appuyez pour jouer":
+        xcoordinate, ycoordinate = pyautogui.locateCenterOnScreen(".\\Images\\taptoplay.png", confidence = 0.7)
+        pyautogui.moveTo(xcoordinate, ycoordinate,1)
         pyautogui.click()
 
-    elif option == "level 2":
-        xCoordinate, yCoordinate = pyautogui.locateCenterOnScreen(".\Images\level.png", confidence = 0.7)
-        pyautogui.moveTo(xCoordinate, yCoordinate, 1)
+
+    elif choices== "fire" or  choices== "feu":
+        xcoordinate, ycoordinate = pyautogui.locateCenterOnScreen(".\Images\opponent.png", confidence = 0.7)
+        pyautogui.moveTo(xcoordinate, ycoordinate,1)
         pyautogui.click()
 
 
-    elif option == "play":
-        xCoordinate, yCoordinate = pyautogui.locateCenterOnScreen(".\\Images\\taptoplay.png", confidence = 0.7)
-        pyautogui.moveTo(xCoordinate, yCoordinate, 1)
+    elif choices== "fullscreen" or  choices== "plein écran":
+        xcoordinate, ycoordinate = pyautogui.locateCenterOnScreen(".\Images\Fullscreen.png", confidence = 0.7)
+        pyautogui.moveTo(xcoordinate, ycoordinate,1)
         pyautogui.click()
 
-    elif option == "fire":
-        xCoordinate, yCoordinate = pyautogui.locateCenterOnScreen(".\Images\opponent.png", confidence = 0.7)
-        pyautogui.moveTo(xCoordinate, yCoordinate, 1)
+
+    elif choices== "replay"or choices=="rejouer":
+        xcoordinate, ycoordinate = pyautogui.locateCenterOnScreen(".\Images\Replay.png", confidence = 0.7)
+        pyautogui.moveTo(xcoordinate, ycoordinate,1)
         pyautogui.click()
 
-    elif option == "fullscreen":
-        xCoordinate, yCoordinate = pyautogui.locateCenterOnScreen(".\Images\Fullscreen.png", confidence = 0.7)
-        pyautogui.moveTo(xCoordinate, yCoordinate, 1)
+
+    elif choices== "single player" or  choices== "joueur unique":
+        xcoordinate, ycoordinate = pyautogui.locateCenterOnScreen(".\Images\Singleplayer.png", confidence = 0.6)
+        pyautogui.moveTo(xcoordinate, ycoordinate,1)
         pyautogui.click()
 
-    elif option == "replay":
-        xCoordinate, yCoordinate = pyautogui.locateCenterOnScreen(".\Images\Replay.png", confidence = 0.7)
-        pyautogui.moveTo(xCoordinate, yCoordinate, 1)
+    elif choices== "home" or choices== "maison":
+        xcoordinate, ycoordinate = pyautogui.locateCenterOnScreen(".\Images\home.png", confidence = 0.7)
+        pyautogui.moveTo(xcoordinate, ycoordinate,1)
         pyautogui.click()
-    elif option == "single player" or option == "finger player":
-        xCoordinate, yCoordinate = pyautogui.locateCenterOnScreen(".\Images\Singleplayer.png", confidence = 0.7)
-        pyautogui.moveTo(xCoordinate, yCoordinate, 1)
-        pyautogui.click()
+    
+    elif choices== "mute" or choices== "muette" or choices== "muet":
+        xcoordinate, ycoordinate = pyautogui.locateCenterOnScreen(".\Images\mute.png", confidence = 0.7)
+        pyautogui.moveTo(xcoordinate, ycoordinate,1)
+        pyautogui.click()    
+          
+def detectAd():
+    r=None
+    r=pyautogui.locateOnScreen(".\Images\skipad.png")
+    print(r)
+    if r is not None:
+        pyautogui.click(r)
 
+def detectGameOver():
+    r=None
+    r=pyautogui.locateOnScreen(".\Images\Replay.png")
+    print(r)
+    if r is not None:
+        page4 = ".\Textfiles\StickManPage4.txt"
+        file1 = open(page4, 'r')
+        Lines = file1.readlines()
+        # Creating an object for playing the sound
+        for line in Lines:
+            speakText(line,optedLanguage = 'en', x=False)
+        initialInput = "initial input"
+
+        while(initialInput == "initial input"):
+            with sr.Microphone() as source:
+                speakText("Talk Now", optedLanguage)
+                optedOption = speechRecognizer.listen(source)
+                speakText("Time Over, Thanks", optedLanguage)
+                # recoginize_() method will throw a request error if the API is unreachable, hence using exception handling
+
+                try:
+                    # using google speech recognition
+                    print("Text: "+speechRecognizer.recognize_google(optedOption))
+                    initialInput = "ended"
+                except:
+                    speakText("Sorry, I did not get that", optedLanguage)
+        option = speechRecognizer.recognize_google(optedOption)           
+        choice(option)
+        
 # Method to give language coices to user
-def speakText(line,optedLanguage):
+def speakText(line,optedLanguage = 'en', x=False):
     if optedLanguage =="français":
-        line = translator.translate(line, dest = 'fr')
+
+        line = translator.translate(line, dest = 'fr', tld = x)
         text = line.text
-        speak = gTTS(text =text, lang='fr',slow=False )
+        speak = gTTS(text =text, lang='fr',slow=x )
         speak.save("frenchoutput.mp3")
         playsound('frenchoutput.mp3')
         os.remove('frenchoutput.mp3')
     else:
-        engine.say(line)
-        engine.runAndWait()
+        speak = gTTS(text =line, lang='en',slow=x )
+
+        speak.save("Englishoutput.mp3")
+        playsound('Englishoutput.mp3')
+        os.remove('Englishoutput.mp3')
     
      
 def autoAim(relativeA,relativeB,xCoordinate,yCoordinate,optedLanguage):
-        # Autoaim range is defined for cursor
+    # Autoaim range is defined for cursor
     if relativeA in range(-100,100) and relativeB in range(-100,100):
         pyautogui.moveTo(xCoordinate, yCoordinate-40, 1)
         print("fire")
         trigger="Fire"
-        engine.say(trigger)
-        engine.runAndWait()
-        engine.setProperty("rate",150)
+        speakText(trigger,optedLanguage)
 
-# Initializing Text-To-Speech engine
-engine = pyttsx3.init()
-engine.setProperty("rate",130)
+
 
         
 # A tuple containing all the language and
@@ -95,67 +147,63 @@ translator = Translator()
 # Building an object for Speech recognization
 speechRecognizer = sr.Recognizer()  
 
+
 # Setting up the game path and calling it
+pyautogui.press("win")
+time.sleep(2)
+pyautogui.write("chrome")
+time.sleep(2)
+pyautogui.press("enter")
+time.sleep(5)
 gameURL = 'https://www.crazygames.com/game/stickman-archer-2'
+pyautogui.write(gameURL)
+pyautogui.press("enter")
+
 
 #Setting up the google driver
 chromePath = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s'
 webbrowser.get(chromePath).open_new(gameURL)
 
-print("Reached")
 # Allowing user to choose a language
 englishLanguage = "If you want to continue in English say English."
-engine.say(englishLanguage)
-engine.runAndWait()
+speakText(englishLanguage)
 
-voice = engine.getProperty('voices')[3] # the french voice
-engine.setProperty('voice', voice.id)
 frenchLanguage = "Si tu veux continuer en français, dis français."
-engine.say(frenchLanguage)
-engine.runAndWait()
+speakText(frenchLanguage,'français')
 
 initialInput = "initial input"
 
 while(initialInput == "initial input"):
     with sr.Microphone() as source:
-        engine.say("Talk Now")
-        engine.runAndWait()
+        speakText("Talk Now")
+        global optedLanguage 
         optedLanguage = speechRecognizer.listen(source)
-        engine.say("Time Over, Thanks")
-        engine.runAndWait()
+        speakText("Time Over, Thanks")
         # recoginize_() method will throw a request error if the API is unreachable, hence using exception handling
-
         try:
             # using google speech recognition
             print("Text: "+speechRecognizer.recognize_google(optedLanguage))
             initialInput = "ended"
         except:
-                engine.say("Sorry, I did not get that")
-                engine.runAndWait()
-
-if optedLanguage=="English":
-    voice = engine.getProperty('voices') #get the available voices
-    engine.setProperty('voice', voice[0].id)
-elif optedLanguage == "français":
-    voice = engine.getProperty('voices')[3] # the french voice
-    engine.setProperty('voice', voice.id)
-
+            speakText("Sorry, I did not get that")
 
 time.sleep(2)
 
-# Allowing User to choose prefferable voice
-Voice="Please choose a Voice. Male or Female"
+
+
+
+# This feature will be narrate through cursor reading for selecting words per minute
+Voice="Please select the narration speed. Normal or slow"
 speakText(Voice, optedLanguage)
 
 initialInput = "initial input"
 
 while(initialInput == "initial input"):
     with sr.Microphone() as source:
-        engine.say("Talk Now")
-        engine.runAndWait()
+        speakText("Talk Now", optedLanguage)
+        global optedVoice
         optedVoice = speechRecognizer.listen(source)
-        engine.say("Time Over, Thanks")
-        engine.runAndWait()
+        speakText("Time Over, Thanks", optedLanguage)
         # recoginize_() method will throw a request error if the API is unreachable, hence using exception handling
 
         try:
@@ -163,21 +211,14 @@ while(initialInput == "initial input"):
             print("Text: "+speechRecognizer.recognize_google(optedVoice))
             initialInput = "ended"
         except:
-                engine.say("Sorry, I did not get that")
-                engine.runAndWait()
-                
-if optedVoice=="female" or "femelle":
-    voice = engine.getProperty('voices') #get the available voices
-    engine.setProperty('voice', voice[1].id)
-elif optedVoice == "male" or "mâle":
-    voice = engine.getProperty('voices') #get the available voices
-    engine.setProperty('voice', voice[0].id)
+            speakText("Sorry, I did not get that", optedLanguage)
 
-# This feature will be narrate through cursor reading for selecting words per minute
-ROOT = tk.Tk()
-ROOT.withdraw()
-wordPace = simpledialog.askstring(title="Words Per Minute", prompt = "1. 125 2. 130 3. 175 ")
-engine.setProperty("rate",wordPace)
+if optedVoice == "slow": 
+    speakText('You have chose slow speed',optedLanguage = 'en', x=False)
+else:
+     speakText('You have chose normal speed',optedLanguage = 'en', x=True)          
+
+
 
 # Giving a subtitle file for Text-To-Speech
 playButton = "Do you want to Play Now?"
@@ -188,27 +229,26 @@ initialInput = "initial input"
 
 while(initialInput == "initial input"):
     with sr.Microphone() as source:
-        engine.say("Talk Now")
-        engine.runAndWait()
+        speakText("Talk Now", optedLanguage)
         optedOption = speechRecognizer.listen(source)
-        engine.say("Time Over, Thanks")
-        engine.runAndWait()
+        speakText("Time Over, Thanks", optedLanguage)
         # recoginize_() method will throw a request error if the API is unreachable, hence using exception handling
 
         try:
             # using google speech recognition
             print("Text: "+speechRecognizer.recognize_google(optedOption))
             initialInput = "ended"
+            
+            
         except:
-                engine.say("Sorry, I did not get that")
-                engine.runAndWait()
+            speakText("Sorry, I did not get that", optedLanguage)
 
 
 option = speechRecognizer.recognize_google(optedOption)
-choices(option)
+choice(option)
 
 # Calling Page 1 of the game to narrate the script and user menu.
-page1 = ".\Textfiles\Page_1.txt" 
+page1 = ".\Textfiles\StickManPage1.txt" 
 file1 = open(page1, 'r')
 Lines = file1.readlines()
 
@@ -221,11 +261,9 @@ initialInput = "initial input"
 
 while(initialInput == "initial input"):
     with sr.Microphone() as source:
-        engine.say("Talk Now")
-        engine.runAndWait()
+        speakText("Talk Now", optedLanguage)
         optedOption = speechRecognizer.listen(source)
-        engine.say("Time Over, Thanks")
-        engine.runAndWait()
+        speakText("Time Over, Thanks", optedLanguage)
         # recoginize_() method will throw a request error if the API is unreachable, hence using exception handling
 
         try:
@@ -233,14 +271,13 @@ while(initialInput == "initial input"):
             print("Text: "+speechRecognizer.recognize_google(optedOption))
             initialInput = "ended"
         except:
-                engine.say("Sorry, I did not get that")
-                engine.runAndWait()
+            speakText("Sorry, I did not get that", optedLanguage)
 
 option = speechRecognizer.recognize_google(optedOption)
-choices(option) # choices() for object identification
+choice(option)
 
 # Calling Page 2 of the game to narrate the script and user menu
-page2 = ".\Textfiles\Page_2.txt"
+page2 = ".\Textfiles\StickManPage2.txt"
 file1 = open(page2, 'r')
 Lines = file1.readlines()
 
@@ -254,11 +291,9 @@ initialInput = "initial input"
 
 while(initialInput == "initial input"):
     with sr.Microphone() as source:
-        engine.say("Talk Now")
-        engine.runAndWait()
+        speakText("Talk Now", optedLanguage)
         optedOption = speechRecognizer.listen(source)
-        engine.say("Time Over, Thanks")
-        engine.runAndWait()
+        speakText("Time Over, Thanks", optedLanguage)
         # recoginize_() method will throw a request error if the API is unreachable, hence using exception handling
 
         try:
@@ -266,14 +301,12 @@ while(initialInput == "initial input"):
             print("Text: "+speechRecognizer.recognize_google(optedOption))
             initialInput = "ended"
         except:
-                engine.say("Sorry, I did not get that")
-                engine.runAndWait()
+            speakText("Sorry, I did not get that", optedLanguage)
         
 
 option = speechRecognizer.recognize_google(optedOption)
-xCoordinate, yCoordinate = pyautogui.locateCenterOnScreen(".\\Images\\taptoplay.png", confidence = 0.7)
-pyautogui.moveTo(xCoordinate, yCoordinate, 1)
-pyautogui.click()
+choice(option)
+    
 
 
 time.sleep(3)
@@ -293,70 +326,66 @@ while True:
         yNew = yCoordinate
         
         time.sleep(2)
-        
-        autoAim(relativeAx,relativeBy,xCoordinate,yCoordinate,optedLanguage)
+
+        detectAd()
+        autoAim(relativeAx,relativeBy,xCoordinate,yCoordinate,optedLanguage='en')
+
         # Navigation aid to detect the location of enemies
         if xCoordinate!= xNew:
-            autoAim(relativeAx,relativeBy,xCoordinate,yCoordinate,optedLanguage)
+            detectAd()
+            autoAim(relativeAx,relativeBy,xCoordinate,yCoordinate,optedLanguage='en')
+            detectAd()
+            
             pass
         else:
             
             if relativeA>0 and relativeB>0:
                 
-                Northwest = "EnEmies in Northwest"    # Navigation for enimies in Northwest
-                speakText(Northwest, optedLanguage)
-                autoAim(relativeAx,relativeBy,xCoordinate,yCoordinate,optedLanguage)
+                Northwest = "EnEmy in Northwest"    # Navigation for enimies in Northwest
+                speakText(Northwest, optedLanguage='en')
+                #detectAd()
+                #detectGameOver()
+                autoAim(relativeAx,relativeBy,xCoordinate,yCoordinate,optedLanguage='en')
+               
 
                 
             elif relativeA<0 and relativeB>0:
                 
-                Northeast = "EnEmies in Northeast"    # Navigation for enimies in Northeast
-                speakText(Northeast, optedLanguage)
-                autoAim(relativeAx,relativeBy,xCoordinate,yCoordinate,optedLanguage)
+                Northeast = "EnEmy in Northeast"    # Navigation for enimies in Northeast
+                speakText(Northeast, optedLanguage='en')
+                #detectAd()
+                #detectGameOver()
+                autoAim(relativeAx,relativeBy,xCoordinate,yCoordinate,optedLanguage='en')
+               
 
             elif relativeA>0 and relativeB<0:
                 
-                southwest = "EnEmies in southwest"    # Navigation for enimies in southwest
-                speakText(southwest, optedLanguage)
-                autoAim(relativeAx,relativeBy,xCoordinate,yCoordinate,optedLanguage)
+                southwest = "EnEmy in southwest"    # Navigation for enimies in southwest
+                speakText(southwest, optedLanguage='en')
+                #detectAd()
+                #detectGameOver()
+                autoAim(relativeAx,relativeBy,xCoordinate,yCoordinate,optedLanguage='en')
+            
             
             elif relativeA<0 and relativeB<0:
                 
-                souteast = "EnEmies in souteast"      # Navigation for enimies in southeast
-                speakText(souteast, optedLanguage)
-                autoAim(relativeAx,relativeBy,xCoordinate,yCoordinate,optedLanguage)
-            autoAim(relativeAx,relativeBy,xCoordinate,yCoordinate,optedLanguage)
-
+                souteast = "EnEmy in souteast"      # Navigation for enimies in southeast
+                speakText(souteast, optedLanguage='en')
+                #detectAd()
+                #detectGameOver()
+                autoAim(relativeAx,relativeBy,xCoordinate,yCoordinate,optedLanguage='en')
+                
+            detectAd()
+            detectGameOver()
+            autoAim(relativeAx,relativeBy,xCoordinate,yCoordinate,optedLanguage='en')
+            
+           
                 
                 
         # Autoaim range is defined for cursor
             
     except:
+        detectAd()
+        detectGameOver()
         pass
-        '''
-        page4 = ".\Textfiles\Page_4.txt"
-        file1 = open(page4, 'r')
-        Lines = file1.readlines()
-        # Creating an object for playing the sound
-        for line in Lines:
-            engine.say(line)
-            engine.runAndWait()
-
-        # Asking user to choose an option and saying it in their microphone
-        with sr.Microphone() as source:
-            print("Talk")
-            optedOption = speechRecognizer.listen(source)
-            print("Time over, thanks")
-        # recoginize_() method will throw a request error if the API is unreachable, hence using exception handling
-            
-            try:
-                # using google speech recognition
-                print("Text: "+speechRecognizer.recognize_google(optedOption))
-            except:
-                engine.say("Sorry, I did not get that")
-                engine.runAndWait()
-
-        option = speechRecognizer.recognize_google(optedOption)
-        choices(option)
-        '''
         

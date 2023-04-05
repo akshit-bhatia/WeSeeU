@@ -1,8 +1,0 @@
-Hi, Welcome to the game. 
-Its a beautiful day. 
-Following is the list of option in the game:
-play
-Instruction
-High scores
-Add Your score
-Exit game
